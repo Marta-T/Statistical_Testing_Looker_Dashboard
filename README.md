@@ -33,10 +33,9 @@ Dataset about a mobile game Cookie Cats was analyzed. This dataset included:
 - retention rate after 1 day
 - retention rate after 7 days
 - game rounds played
-There was a significant difference in retention rates 7 days after installing the app when the gate is put on 30th level comparing to 40th. However, the effect size was small.
-Also, there was no significant difference in game rounds played when the gate is put on 30th level comparing to 40th.
+There were no significant differences in retention rates or the game rounds played when the gate is put on 30th level comparing to 40th.
 ### Decision
-Gate should be moved to level 30 for higher retention rates (especially retention 7 days after installing the app).
+There is no significant difference in gamerounds played or retention rates when comparing gate 30 and gate 40 game versions.
 # 2. Fast Food Marketing Campaign A\B Test
 ## Introduction
 ### Overview

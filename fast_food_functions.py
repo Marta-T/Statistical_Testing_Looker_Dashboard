@@ -107,12 +107,6 @@ def histogram_compare_groups(
 
 def histogram_with_ci(
     means,
-    scipy_lower_errors,
-    scipy_upper_errors,
-    bootstrap_lower_errors,
-    bootstrap_upper_errors,
-    scipy_ci_list,
-    bootstrap_ci_list,
     title,
     ylabel,
     xlabel,
@@ -128,20 +122,6 @@ def histogram_with_ci(
     ----------
     means : array-like
         Mean values for each group to plot
-    scipy_lower_errors : array-like
-        Lower error margins from scipy confidence intervals (distance from mean to lower bound)
-    scipy_upper_errors : array-like
-        Upper error margins from scipy confidence intervals (distance from mean to upper bound)
-    bootstrap_lower_errors : array-like
-        Lower error margins from bootstrap confidence intervals (distance from mean to lower bound)
-    bootstrap_upper_errors : array-like
-        Upper error margins from bootstrap confidence intervals (distance from mean to upper bound)
-    scipy_ci_list : list of tuples
-        List of confidence interval bounds from scipy method [(lower1, upper1), (lower2, upper2), ...]
-        Used for annotation labels on the plot
-    bootstrap_ci_list : list of tuples
-        List of confidence interval bounds from bootstrap method [(lower1, upper1), (lower2, upper2), ...]
-        Used for annotation labels on the plot
     title : str
         Title for the plot
     ylabel : str
@@ -163,54 +143,30 @@ def histogram_with_ci(
         Displays the bar chart with confidence intervals and annotation labels.
     """
     x = np.arange(len(means))
-    width = 0.35
+    width = 0.4
 
     plt.figure(figsize=figsize)
     plt.subplots_adjust(left=0.1, right=0.65, top=0.95, bottom=0.1)
 
-    plt.bar(
-        x=x - width / 2,
+    plt.bar(x=x,
         height=means,
         width=width,
-        yerr=[scipy_lower_errors, scipy_upper_errors],
-        label="Scipy CI",
-        capsize=5,
+        capsize=5
     )
-    plt.bar(
-        x=x + width / 2,
-        height=means,
-        width=width,
-        yerr=[bootstrap_lower_errors, bootstrap_upper_errors],
-        label="Bootstrap CI",
-        capsize=5,
-    )
-    plt.legend()
+
     plt.title(title)
     plt.ylabel(ylabel)
     plt.xlabel(xlabel)
     plt.xticks(ticks=list(range(len(labels))), labels=labels)
+
+    for i, v in enumerate(means):
+       plt.text(i, v, f'{v:.0f}', ha='center', va='bottom', size='small')
 
     ax = plt.gca()
     ax.set_ylim(ylim)
 
     plt.gca().spines["top"].set_visible(False)
     plt.gca().spines["right"].set_visible(False)
-
-    for i in range(len(means)):
-        plt.text(
-            x[i] - width / 2,
-            means[i] + scipy_upper_errors[i] + 5000,
-            f"{scipy_ci_list[i][0]:.0f}-\n{scipy_ci_list[i][1]:.0f}",
-            ha="center",
-            fontsize=8,
-        )
-        plt.text(
-            x[i] + width / 2,
-            means[i] + bootstrap_upper_errors[i] + 5000,
-            f"{bootstrap_ci_list[i][0]:.0f}-\n{bootstrap_ci_list[i][1]:.0f}",
-            ha="center",
-            fontsize=8,
-        )
 
     plt.text(
         1.1,
